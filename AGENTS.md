@@ -1,27 +1,35 @@
-# DJConnect Agent Guidance
+# DJConnect Pi Releases Agent Instructions
 
-This repository follows the DJConnect design foundation maintained in `pcvantol/djconnect`.
+This repository follows the canonical DJConnect design foundation in `pcvantol/djconnect`.
 
-Before changing Pi release artifacts, release notes, publication flow, checksums, download structure, or security/privacy behavior, read the source-of-truth documents in the Home Assistant integration repo:
+Before changing Pi release artifacts, release notes, publication flow, checksums, download structure, or security/privacy behavior, read the source-of-truth documents in the Home Assistant integration repo.
 
-1. `DJCONNECT_CONSTITUTION.md`
-2. `PRODUCT_VISION.md`
-3. `DESIGN_PRINCIPLES.md`
-4. `ARCHITECTURE_PRINCIPLES.md`
-5. `CI_CD_RELEASE_GOVERNANCE.md`
-6. `PRODUCT_ROADMAP.md`
-7. `INNOVATION_LAB.md`
-8. `SYNC_PROMPTS.md`
+## Role
 
-## Repository role
+This repo is a distribution surface for public/community DJConnect Pi release artifacts and release notes.
 
-`pcvantol/djconnect-pi-releases` is a public release/distribution surface for Pi client artifacts and release metadata.
+It does not own product logic, Pi client source, platform contracts or roadmap decisions. It must preserve release integrity, version clarity, artifact consistency, and safe update paths.
 
-It should not own product logic. It must preserve release integrity, version clarity, artifact consistency, and safe update paths.
+Canonical source files live in `pcvantol/djconnect`:
 
-## Release rules
+- `DJCONNECT_CONSTITUTION.md`
+- `PRODUCT_VISION.md`
+- `DESIGN_PRINCIPLES.md`
+- `ARCHITECTURE_PRINCIPLES.md`
+- `PRODUCT_LANGUAGE.md`
+- `PLATFORM_GOVERNANCE.md`
+- `PLATFORM_QUALITY_STANDARD.md`
+- `CI_CD_RELEASE_GOVERNANCE.md`
+- `SYNC_PROMPTS.md`
+- `PRODUCT_ROADMAP.md`
+- `INNOVATION_LAB.md`
 
-- Do not publish secrets, tokens, private keys, private logs, or production user/device data.
+## Rules
+
+- Keep artifacts traceable to source commits in `pcvantol/djconnect-pi`.
 - Keep artifacts, manifests, checksums, and release notes aligned.
-- Public release notes should be clear enough for community users to decide whether to update.
+- Do not publish signing secrets, tokens, private keys, private logs, private user/device data or Home Assistant credentials.
+- Release notes should be user-facing and use official product language.
+- Do not fork roadmap or sync prompts locally.
 - Contract changes must be reflected in `pcvantol/djconnect/SYNC_PROMPTS.md` and the canonical roadmap.
+- Pi release changes must preserve the Pi role as a community Ambient Client.
