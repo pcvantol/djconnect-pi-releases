@@ -1,0 +1,56 @@
+name: Post-Merge Distribution Integrity
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate distribution metadata
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 1
+      - name: Validate exact-main-SHA distribution metadata
+        env:
+          MAIN_SHA: ${{ github.sha }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          python - <<'PY'
+          from hashlib import sha256
+          import json
+          import os
+          from pathlib import Path
+
+          metadata_path = Path("PLATFORM_RELEASE_DRY_RUN_3_3.json")
+          metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+          assert metadata["schema_version"] == 1
+          assert metadata["kind"] == "platform_release_distribution_dry_run"
+          assert metadata["platform_version"] == "3.3"
+          assert metadata["repository_version"].startswith("3.3.")
+          assert metadata["release_mode"] == "dry_run"
+          assert metadata["artifact_state"] == "planned_not_published"
+          assert metadata["publication"] == "forbidden"
+          assert Path("README.md").is_file()
+          evidence = {
+              "schema_version": 1,
+              "kind": "platform_release_distribution_integrity",
+              "repository": os.environ["REPOSITORY"],
+              "main_sha": os.environ["MAIN_SHA"],
+              "metadata": str(metadata_path),
+              "metadata_sha256": sha256(metadata_path.read_bytes()).hexdigest(),
+              "artifact_state": metadata["artifact_state"],
+              "publication": metadata["publication"],
+              "status": "PASS",
+          }
+          Path("platform-release-distribution-integrity.json").write_text(json.dumps(evidence, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: platform-release-distribution-integrity
+          path: platform-release-distribution-integrity.json
+          if-no-files-found: error
