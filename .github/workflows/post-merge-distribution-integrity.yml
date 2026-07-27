@@ -70,6 +70,9 @@ jobs:
                 "/repos/${repo}/actions/runs/${run_id}"
               deleted_count=$((deleted_count + 1))
             done
+
+            echo "Workflow '${workflow_name}' (${workflow_id}): deleted ${deleted_count} completed runs older than the effective keep limit ${keep_limit}."
+          done
   validate:
     name: Validate distribution metadata
     runs-on: ubuntu-latest
