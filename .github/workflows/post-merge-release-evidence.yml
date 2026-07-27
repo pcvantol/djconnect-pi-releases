@@ -15,9 +15,9 @@ permissions:
 jobs:
   reconcile:
     if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main'
-    uses: pcvantol/djconnect/.github/workflows/post-merge-release-evidence.yml@78852b8f714981794c63b92ff0d3083d06516099
+    uses: pcvantol/djconnect/.github/workflows/post-merge-release-evidence.ymlf2f18c4bc9401ac7f0fdf37728f19ee6d9c1e4
     with:
-      policy_source_ref: 5fb2c41f29c01a9c0000475fe8565d943f090d60
+      policy_source_ref: 90f2f18c4bc9401ac7f0fdf37728f19ee6d9c1e4
       required_main_workflow: Post-Merge Distribution Integrity
       repository_role: distribution
       distribution_evidence_artifact_name: platform-release-distribution-integrity
